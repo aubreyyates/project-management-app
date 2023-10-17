@@ -1,23 +1,18 @@
-import ApiAuthorzationRoutes from './components/api-authorization/ApiAuthorizationRoutes';
-import { Counter } from "./components/Counter";
-import { FetchData } from "./components/FetchData";
+import MantisApp from "components/MantisApp";
+import ApiAuthorzationRoutes from "./components/api-authorization/ApiAuthorizationRoutes";
 import { Home } from "./components/Home";
 
 const AppRoutes = [
   {
     index: true,
-    element: <Home />
+    element: <Home />,
   },
   {
-    path: '/counter',
-    element: <Counter />
-  },
-  {
-    path: '/fetch-data',
+    path: "/dashboard",
     requireAuth: true,
-    element: <FetchData />
+    element: <MantisApp />,
   },
-  ...ApiAuthorzationRoutes
+  ...ApiAuthorzationRoutes,
 ];
 
 export default AppRoutes;
