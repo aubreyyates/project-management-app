@@ -6,6 +6,7 @@ import "./custom.css";
 import { Home } from "components/Home";
 import MantisApp from "components/MantisApp";
 import DashboardDefault from "pages/dashboard/index";
+import Projects from "pages/projects/index";
 
 export default class App extends Component {
   static displayName = App.name;
@@ -19,6 +20,7 @@ export default class App extends Component {
           element={<AuthorizeRoute element={<MantisApp />} />}
         >
           <Route index={true} path="default" element={<DashboardDefault />} />
+          <Route path="projects" element={<Projects />} />
         </Route>
         {AppRoutes.map((route, index) => {
           const { element, requireAuth, ...rest } = route;
