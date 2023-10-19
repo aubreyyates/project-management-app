@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using ProjectManagementApp.Data;
+using ProjectManagementApp.Contracts;
 using ProjectManagementApp.Models;
+using ProjectManagementApp.Services;
 
 namespace ProjectManagementApp.Controllers
 {
@@ -9,18 +9,19 @@ namespace ProjectManagementApp.Controllers
     [ApiController]
     public class ProjectController : ControllerBase
     {
-        private readonly ApplicationDbContext _context;
+        private readonly IProjectService _projectService;
 
-        public ProjectController(ApplicationDbContext context)
+        public ProjectController(IProjectService projectService)
         {
-            _context = context;
+            _projectService = projectService;
         }
 
         // GET: api/projects
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Project>>> GetProjects()
         {
-            var projects = await _context.Project.ToListAsync();
+            var projects = await _projectService.GetProjectsAsync();
+
             return Ok(projects);
         }
 
@@ -28,7 +29,7 @@ namespace ProjectManagementApp.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Project>> GetProject(int id)
         {
-            var project = await _context.Project.FindAsync(id);
+            var project = await _projectService.GetProjectByIdAsync(id);
 
             if (project == null)
             {
@@ -42,10 +43,9 @@ namespace ProjectManagementApp.Controllers
         [HttpPost]
         public async Task<ActionResult<Project>> PostProject(Project project)
         {
-            _context.Project.Add(project);
-            await _context.SaveChangesAsync();
+            var projectId = await _projectService.CreateProjectAsync(project);
 
-            return CreatedAtAction("GetProject", new { id = project.Id }, project);
+            return CreatedAtAction("GetProject", new { id = projectId }, project);
         }
 
         // PUT: api/projects/5
@@ -57,23 +57,7 @@ namespace ProjectManagementApp.Controllers
                 return BadRequest();
             }
 
-            _context.Entry(project).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!ProjectExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+            await _projectService.UpdateProjectAsync(project);
 
             return NoContent();
         }
@@ -82,21 +66,14 @@ namespace ProjectManagementApp.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteProject(int id)
         {
-            var project = await _context.Project.FindAsync(id);
-            if (project == null)
+            var projectDeleted = await _projectService.DeleteProjectAsync(id);
+
+            if (!projectDeleted)
             {
                 return NotFound();
             }
 
-            _context.Project.Remove(project);
-            await _context.SaveChangesAsync();
-
             return NoContent();
-        }
-
-        private bool ProjectExists(int id)
-        {
-            return _context.Project.Any(e => e.Id == id);
         }
     }
 }
