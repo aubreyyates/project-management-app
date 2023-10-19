@@ -10,7 +10,6 @@ import { Box, Toolbar, useMediaQuery } from "@mui/material";
 import Drawer from "./Drawer";
 import Header from "./Header";
 import navigation from "menu-items";
-import Breadcrumbs from "components/@extended/Breadcrumbs";
 
 // types
 import { openDrawer } from "store/reducers/menu";
@@ -53,7 +52,6 @@ const MainLayout = () => {
         sx={{ width: "100%", flexGrow: 1, p: { xs: 2, sm: 3 } }}
       >
         <Toolbar />
-        <Breadcrumbs navigation={navigation} title />
         <Outlet />
       </Box>
     </Box>
