@@ -26,11 +26,15 @@ export default function Table() {
   const theme = useTheme();
   const [rows, setRows] = useState([]);
 
-  useEffect(() => {
+  const fetchData = () => {
     fetch(apiEndpoint)
       .then((response) => response.json())
       .then((data) => setRows(data))
       .catch((error) => console.error(error));
+  };
+
+  useEffect(() => {
+    fetchData(); // Fetch data initially
   }, []); // The empty array [] ensures the effect runs once after the initial render
 
   return (
