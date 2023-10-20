@@ -27,6 +27,8 @@ builder.Services.AddAuthentication()
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 
+builder.Services.AddCors();
+
 builder.Services.AddScoped<IProjectService, ProjectService>();
 
 var app = builder.Build();
@@ -56,5 +58,11 @@ app.MapControllerRoute(
 app.MapRazorPages();
 
 app.MapFallbackToFile("index.html");
+
+// global cors policy
+app.UseCors(x => x
+    .AllowAnyOrigin()
+    .AllowAnyMethod()
+    .AllowAnyHeader());
 
 app.Run();
