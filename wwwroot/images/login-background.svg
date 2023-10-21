@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="2000" height="3000" viewBox="0 0 2000 3000">
+  <defs>
+    <linearGradient id="linear-gradient" x1="0.5" x2="0.5" y2="1" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#1449ca"/>
+      <stop offset="1" stop-color="#4d62c9"/>
+    </linearGradient>
+    <linearGradient id="linear-gradient-3" x1="0.5" x2="0.5" y2="1" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#383838"/>
+      <stop offset="1" stop-color="#0c67d5"/>
+    </linearGradient>
+    <filter id="Path_1" x="1227.216" y="-30" width="826.784" height="1000.256" filterUnits="userSpaceOnUse">
+      <feOffset dy="24" input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="18" result="blur"/>
+      <feFlood flood-opacity="0.188"/>
+      <feComposite operator="in" in2="blur"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+    <linearGradient id="linear-gradient-4" x1="0.5" x2="0.5" y2="1" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#2777d7"/>
+      <stop offset="1" stop-color="#051359"/>
+    </linearGradient>
+    <filter id="Subtraction_1" x="920.179" y="1369" width="194" height="203" filterUnits="userSpaceOnUse">
+      <feOffset dy="3" input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="3" result="blur-2"/>
+      <feFlood flood-opacity="0.522"/>
+      <feComposite operator="in" in2="blur-2"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+    <clipPath id="clip-login-background">
+      <rect width="2000" height="3000"/>
+    </clipPath>
+  </defs>
+  <g id="login-background" clip-path="url(#clip-login-background)">
+    <rect width="2000" height="3000" fill="#fff"/>
+    <g id="login-background-2" data-name="login-background" transform="translate(3513.179 3234)">
+      <g id="Rectangle_1" data-name="Rectangle 1" transform="translate(-3513.179 -3234)" fill="#4386d7" stroke="#707070" stroke-width="1">
+        <rect width="2000" height="3000" stroke="none"/>
+        <rect x="0.5" y="0.5" width="1999" height="2999" fill="none"/>
+      </g>
+      <path id="Path_3" data-name="Path 3" d="M-2776.479-585.052-1517.5-1904.765-1516.961-250H-3164.909Z" transform="translate(3.781 16)" fill="url(#linear-gradient)"/>
+      <path id="Path_4" data-name="Path 4" d="M-1430.632-1904.765V-261.405h-1671.5Z" transform="translate(-4943.812 -3495.405) rotate(180)" fill="url(#linear-gradient)"/>
+      <g transform="matrix(1, 0, 0, 1, -3513.18, -3234)" filter="url(#Path_1)">
+        <path id="Path_1-2" data-name="Path 1" d="M-2231.964-3234s195.288,54.765,261.512,201.651c66.526,147.559-7.983,339.733,106.561,512.384s350.711,178.221,350.711,178.221V-3234Z" transform="translate(3513.18 3234)" fill="url(#linear-gradient-3)"/>
+      </g>
+      <path id="Path_2" data-name="Path 2" d="M-3513-1935.358s327.606,69.672,446.93,274.438-.512,355.141,211.506,709.513c73.358,122.613,428.1,284.209,509.049,365.507,153.891,154.546,161.83,345.542,161.83,345.542H-3513Z" transform="translate(-0.179 6)" fill="url(#linear-gradient-4)"/>
+      <g transform="matrix(1, 0, 0, 1, -3513.18, -3234)" filter="url(#Subtraction_1)">
+        <path id="Subtraction_1-2" data-name="Subtraction 1" d="M156,223H20A20,20,0,0,1,0,203V124a20,20,0,0,1,20-20H43V58A20,20,0,0,1,63,38h50a20,20,0,0,1,20,20v46h23a20,20,0,0,1,20,20v79a20,20,0,0,1-20,20ZM88,130a23,23,0,0,0-8,44.572V196H96V174.571A23,23,0,0,0,88,130ZM77,52A20.023,20.023,0,0,0,57,72V85a20.023,20.023,0,0,0,20,20h23a20.023,20.023,0,0,0,20-20V72a20.022,20.022,0,0,0-20-20Z" transform="translate(929.18 1337)" fill="#d2d2d2"/>
+      </g>
+    </g>
+  </g>
+</svg>
