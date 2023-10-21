@@ -10,6 +10,12 @@ import {
 import { Link } from "react-router-dom";
 import { LoginMenu } from "./api-authorization/LoginMenu";
 import "./NavMenu.css";
+import logo from "assets/images/icons/logo.png";
+
+const imageStyle = {
+  borderRadius: "50%",
+  border: "1px solid black",
+};
 
 export class NavMenu extends Component {
   static displayName = NavMenu.name;
@@ -33,13 +39,20 @@ export class NavMenu extends Component {
     return (
       <header>
         <Navbar
-          className="navbar-expand-sm navbar-toggleable-sm ng-white border-bottom box-shadow mb-3"
-          container
+          className="navbar-expand-sm navbar-toggleable-sm ng-white border-bottom"
           light
         >
           <NavbarBrand tag={Link} to="/">
-            ProjectManagementApp
+            <img
+              src={logo}
+              alt="Logo"
+              width="40"
+              height="40"
+              style={imageStyle} // Apply the border-radius style
+              className="d-inline-block align-top"
+            />
           </NavbarBrand>
+          <NavbarBrand href="/">Project App</NavbarBrand>
           <NavbarToggler onClick={this.toggleNavbar} className="mr-2" />
           <Collapse
             className="d-sm-inline-flex flex-sm-row-reverse"
