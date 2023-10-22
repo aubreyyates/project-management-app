@@ -4,6 +4,8 @@ import React, { useState } from "react";
 import { Grid, Typography } from "@mui/material";
 import Button from "@mui/material/Button";
 
+import AddIcon from "@mui/icons-material/Add";
+
 import Table from "./Table";
 import ProjectModal from "./ProjectModal";
 
@@ -39,6 +41,7 @@ const Projects = () => {
         <Grid item xs={2} xsOffset="auto">
           <Button
             variant="contained"
+            startIcon={<AddIcon />}
             size="medium"
             sx={{ width: "100%" }}
             onClick={handleOpen}
