@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Button, TextField, Grid, Typography } from "@mui/material";
 
-function CreateForm({ handleClose, updateTableData }) {
+function CreateForm({ createRow }) {
   const [formData, setFormData] = useState({
     name: "",
     description: "",
@@ -21,31 +21,7 @@ function CreateForm({ handleClose, updateTableData }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    // Make a POST request to the API to create a new project
-    fetch("https://localhost:7253/api/projects", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json", // Specify the content type
-      },
-      body: JSON.stringify(formData), // Convert the data to JSON
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        return response.json();
-      })
-      .then((data) => {
-        // Handle a successful response (e.g., show a success message)
-        console.log("Project created:", data);
-        handleClose();
-        updateTableData();
-      })
-      .catch((error) => {
-        // Handle any errors (e.g., show an error message)
-        console.error("Error creating project:", error);
-      });
+    createRow(formData);
   };
 
   return (

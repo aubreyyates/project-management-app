@@ -15,12 +15,7 @@ const style = {
   p: 4,
 };
 
-export default function ProjectModal({
-  open,
-  handleOpen,
-  handleClose,
-  updateTableData,
-}) {
+export default function ProjectModal({ open, handleClose, createRow }) {
   return (
     <Modal
       open={open}
@@ -29,10 +24,7 @@ export default function ProjectModal({
       aria-describedby="modal-modal-description"
     >
       <Box sx={style}>
-        <CreateForm
-          handleClose={handleClose}
-          updateTableData={updateTableData}
-        />
+        <CreateForm createRow={createRow} />
       </Box>
     </Modal>
   );

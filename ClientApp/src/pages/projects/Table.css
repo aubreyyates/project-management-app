@@ -1,0 +1,18 @@
+.MuiDataGrid-row {
+  border-bottom: 1px solid #ebebeb;
+  font-family: Nunito, Arial, Helvetica, sans-serif;
+  font-size: 16px;
+  font-weight: 300;
+}
+
+.MuiDataGrid-cell {
+  background: transparent !important;
+  border: none !important;
+}
+
+.MuiDataGrid-columnHeaders {
+  border-bottom: 1px solid #ebebeb !important;
+  font-family: Nunito, Arial, Helvetica, sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+}

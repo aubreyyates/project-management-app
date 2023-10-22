@@ -2,46 +2,69 @@ import * as React from "react";
 import { useEffect, useState } from "react";
 import { useTheme } from "@mui/material/styles";
 import Box from "@mui/material/Box";
-import { DataGrid } from "@mui/x-data-grid";
+import { DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
 
-let apiEndpoint = "https://localhost:7253/api/projects";
+import "./Table.css";
 
-const columns = [
-  { field: "id", headerName: "ID", width: 90 },
-  {
-    field: "name",
-    headerName: "Name",
-    width: 110,
-    editable: false,
-  },
-  {
-    field: "percentageComplete",
-    headerName: "Complete (%)",
-    width: 200,
-    valueGetter: (params) => `${params.row.percentageComplete}%`,
-  },
-];
-
-export default function Table() {
+export default function Table({ rows, deleteRow }) {
   const theme = useTheme();
-  const [rows, setRows] = useState([]);
 
-  const fetchData = () => {
-    fetch(apiEndpoint)
-      .then((response) => response.json())
-      .then((data) => setRows(data))
-      .catch((error) => console.error(error));
+  const handleDeleteClick = (id) => {
+    deleteRow(id);
   };
 
-  useEffect(() => {
-    fetchData(); // Fetch data initially
-  }, []); // The empty array [] ensures the effect runs once after the initial render
+  const columns = [
+    {
+      field: "id",
+      headerName: "ID",
+      width: 50,
+    },
+    {
+      field: "name",
+      headerName: "Name",
+      width: 500,
+      editable: false,
+    },
+    {
+      field: "percentageComplete",
+      headerName: "Complete (%)",
+      width: 400,
+      valueGetter: (params) => `${params.row.percentageComplete}%`,
+    },
+    {
+      field: "actions",
+      type: "actions",
+      headerName: "Actions",
+      width: 100,
+      cellClassName: "actions",
+      getActions: ({ id }) => {
+        return [
+          // <GridActionsCellItem
+          //   icon={<EditIcon />}
+          //   label="Edit"
+          //   className="textPrimary"
+          //   // onClick={handleEditClick(id)}
+          //   color="inherit"
+          // />,
+          <GridActionsCellItem
+            icon={<DeleteIcon />}
+            label="Delete"
+            onClick={() => handleDeleteClick(id)}
+            color="inherit"
+          />,
+        ];
+      },
+    },
+  ];
 
   return (
-    <Box sx={{ height: 650, width: "100%" }}>
+    <Box sx={{ height: 500, width: "100%" }}>
       <DataGrid
         rows={rows}
         columns={columns}
+        // getRowClassName={getRowClassName}
         initialState={{
           pagination: {
             paginationModel: {
