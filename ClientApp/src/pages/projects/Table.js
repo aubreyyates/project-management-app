@@ -8,11 +8,15 @@ import EditIcon from "@mui/icons-material/Edit";
 
 import "./Table.css";
 
-export default function Table({ rows, deleteRow }) {
+export default function Table({ rows, deleteRow, handleOpen }) {
   const theme = useTheme();
 
   const handleDeleteClick = (id) => {
     deleteRow(id);
+  };
+
+  const handleEditClick = (row) => {
+    handleOpen("update", { ...row });
   };
 
   const columns = [
@@ -39,19 +43,19 @@ export default function Table({ rows, deleteRow }) {
       headerName: "Actions",
       width: 100,
       cellClassName: "actions",
-      getActions: ({ id }) => {
+      getActions: (params) => {
         return [
-          // <GridActionsCellItem
-          //   icon={<EditIcon />}
-          //   label="Edit"
-          //   className="textPrimary"
-          //   // onClick={handleEditClick(id)}
-          //   color="inherit"
-          // />,
+          <GridActionsCellItem
+            icon={<EditIcon />}
+            label="Edit"
+            className="textPrimary"
+            onClick={() => handleEditClick(params.row)}
+            color="inherit"
+          />,
           <GridActionsCellItem
             icon={<DeleteIcon />}
             label="Delete"
-            onClick={() => handleDeleteClick(id)}
+            onClick={() => handleDeleteClick(params.id)}
             color="inherit"
           />,
         ];

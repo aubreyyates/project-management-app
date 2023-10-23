@@ -2,14 +2,14 @@ import React, { useState } from "react";
 import { Grid, Typography } from "@mui/material";
 import FormFields from "./FormFields";
 
-function CreateForm({ createRow }) {
+function UpdateForm({ updateRow, rowData }) {
   const [formData, setFormData] = useState({
-    name: "",
-    description: "",
-    size: "",
-    priority: "",
-    percentageComplete: "",
-    ownerId: "1",
+    name: rowData.name,
+    description: rowData.description,
+    size: rowData.size,
+    priority: rowData.priority,
+    percentageComplete: rowData.percentageComplete,
+    ownerId: rowData.ownerId,
   });
 
   const handleInputChange = (e) => {
@@ -22,14 +22,15 @@ function CreateForm({ createRow }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    createRow(formData);
+    let data = { id: rowData.id, ...formData };
+    updateRow(rowData.id, data);
   };
 
   return (
     <form onSubmit={handleSubmit}>
       <Grid container spacing={2}>
         <Grid item xs={12}>
-          <Typography variant="h5">Create Project</Typography>
+          <Typography variant="h5">Edit Project</Typography>
         </Grid>
         <FormFields formData={formData} handleInputChange={handleInputChange} />
       </Grid>
@@ -37,4 +38,4 @@ function CreateForm({ createRow }) {
   );
 }
 
-export default CreateForm;
+export default UpdateForm;

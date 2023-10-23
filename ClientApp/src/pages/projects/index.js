@@ -14,12 +14,16 @@ import { PROJECTS_ENDPOINT } from "routes/api";
 export default function Projects() {
   const [open, setOpen] = useState(false);
   const [rows, setRows] = useState([]);
+  const [rowData, setRowData] = useState({});
+  const [formType, setFormType] = useState("create");
 
   useEffect(() => {
     fetchData(); // Fetch data initially
   }, []); // The empty array [] ensures the effect runs once after the initial render
 
-  const handleOpen = () => {
+  const handleOpen = (formType, rowData = {}) => {
+    setFormType(formType);
+    setRowData(rowData);
     setOpen(true);
   };
 
@@ -58,12 +62,34 @@ export default function Projects() {
       });
   };
 
+  const updateRow = (id, formData) => {
+    fetch(PROJECTS_ENDPOINT + "/" + id, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json", // Specify the content type
+      },
+      body: JSON.stringify(formData), // Convert the data to JSON
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+      })
+      .then((data) => {
+        fetchData();
+        handleClose();
+      })
+      .catch((error) => {
+        // Handle any errors (e.g., show an error message)
+        console.error("Error creating project:", error);
+      });
+  };
+
   const deleteRow = (id) => {
     fetch(PROJECTS_ENDPOINT + "/" + id, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
-        // Add any other headers if required
       },
     })
       .then((response) => {
@@ -97,20 +123,23 @@ export default function Projects() {
             startIcon={<AddIcon />}
             size="medium"
             sx={{ width: "100%" }}
-            onClick={handleOpen}
+            onClick={() => handleOpen("create")}
           >
             Create New Project
           </Button>
         </Grid>
         {/* row 2 */}
         <Grid item xs={12} sm={12} md={12} lg={12}>
-          <Table rows={rows} deleteRow={deleteRow} />
+          <Table rows={rows} deleteRow={deleteRow} handleOpen={handleOpen} />
         </Grid>
       </Grid>
       <ProjectModal
         open={open}
         handleClose={handleClose}
         createRow={createRow}
+        updateRow={updateRow}
+        formType={formType}
+        rowData={rowData}
       />
     </div>
   );
