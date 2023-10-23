@@ -9,6 +9,8 @@ import AddIcon from "@mui/icons-material/Add";
 import Table from "./Table";
 import ProjectModal from "./ProjectModal";
 
+import authService from "components/api-authorization/AuthorizeService";
+
 import { PROJECTS_ENDPOINT } from "routes/api";
 
 export default function Projects() {
@@ -31,58 +33,60 @@ export default function Projects() {
     setOpen(false);
   };
 
-  const fetchData = () => {
-    fetch(PROJECTS_ENDPOINT)
-      .then((response) => response.json())
-      .then((data) => setRows(data))
-      .catch((error) => console.error(error));
+  const fetchData = async () => {
+    const authToken = await authService.getAccessToken();
+    const response = await fetch(PROJECTS_ENDPOINT, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${authToken}`,
+        "Content-Type": "application/json", // Specify the content type
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`Request failed with status ${response.status}`);
+    }
+
+    const data = await response.json();
+    setRows(data);
   };
 
-  const createRow = (formData) => {
-    fetch(PROJECTS_ENDPOINT, {
+  const createRow = async (formData) => {
+    const authToken = await authService.getAccessToken();
+    const response = await fetch(PROJECTS_ENDPOINT, {
       method: "POST",
       headers: {
+        Authorization: `Bearer ${authToken}`,
         "Content-Type": "application/json", // Specify the content type
       },
       body: JSON.stringify(formData), // Convert the data to JSON
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        return response.json();
-      })
-      .then((data) => {
-        fetchData();
-        handleClose();
-      })
-      .catch((error) => {
-        // Handle any errors (e.g., show an error message)
-        console.error("Error creating project:", error);
-      });
+    });
+
+    if (!response.ok) {
+      throw new Error(`Request failed with status ${response.status}`);
+    }
+
+    await fetchData();
+    handleClose();
   };
 
-  const updateRow = (id, formData) => {
-    fetch(PROJECTS_ENDPOINT + "/" + id, {
+  const updateRow = async (id, formData) => {
+    const authToken = await authService.getAccessToken();
+    const response = await fetch(PROJECTS_ENDPOINT + "/" + id, {
       method: "PUT",
       headers: {
+        Authorization: `Bearer ${authToken}`,
         "Content-Type": "application/json", // Specify the content type
       },
       body: JSON.stringify(formData), // Convert the data to JSON
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-      })
-      .then((data) => {
-        fetchData();
-        handleClose();
-      })
-      .catch((error) => {
-        // Handle any errors (e.g., show an error message)
-        console.error("Error creating project:", error);
-      });
+    });
+
+    if (!response.ok) {
+      throw new Error(`Request failed with status ${response.status}`);
+    }
+
+    await fetchData();
+    handleClose();
   };
 
   const deleteRow = (id) => {
