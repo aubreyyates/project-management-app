@@ -6,7 +6,7 @@ using ProjectManagementApp.Models;
 
 namespace ProjectManagementApp.Data;
 
-public class ApplicationDbContext : ApiAuthorizationDbContext<ApplicationUser>
+public class ApplicationDbContext : ApiAuthorizationDbContext<User>
 {
     public ApplicationDbContext(DbContextOptions options, IOptions<OperationalStoreOptions> operationalStoreOptions)
         : base(options, operationalStoreOptions)
