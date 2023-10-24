@@ -9,7 +9,7 @@ function UpdateForm({ updateRow, rowData }) {
     size: rowData.size,
     priority: rowData.priority,
     percentageComplete: rowData.percentageComplete,
-    ownerId: rowData.ownerId,
+    userId: rowData.userId,
   });
 
   const handleInputChange = (e) => {

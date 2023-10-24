@@ -14,12 +14,14 @@ namespace ProjectManagementApp.Services
             _context = context;
         }
 
-        public async Task<List<Project>> GetProjectsAsync()
+        public async Task<List<Project>> GetProjectsWithUserIdAsync(string userId)
         {
-            return await _context.Project.ToListAsync();
+            return await _context.Project
+                .Where(p => p.UserId == userId)
+                .ToListAsync();
         }
 
-        public async Task<Project?> GetProjectByIdAsync(int projectId)
+        public async Task<Project?> GetProjectWithIdAsync(int projectId)
         {
             return await _context.Project.FindAsync(projectId);
         }

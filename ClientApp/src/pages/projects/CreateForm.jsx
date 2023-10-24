@@ -9,7 +9,7 @@ function CreateForm({ createRow }) {
     size: "",
     priority: "",
     percentageComplete: "",
-    ownerId: "1",
+    userId: "",
   });
 
   const handleInputChange = (e) => {
