@@ -21,7 +21,7 @@ export default function Projects() {
 
   useEffect(() => {
     fetchData(); // Fetch data initially
-  }, []); // The empty array [] ensures the effect runs once after the initial render
+  }, []);
 
   const handleOpen = (formType, rowData = {}) => {
     setFormType(formType);
