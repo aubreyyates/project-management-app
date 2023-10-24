@@ -89,24 +89,22 @@ export default function Projects() {
     handleClose();
   };
 
-  const deleteRow = (id) => {
-    fetch(PROJECTS_ENDPOINT + "/" + id, {
+  const deleteRow = async (id) => {
+    const authToken = await authService.getAccessToken();
+    const response = await fetch(PROJECTS_ENDPOINT + "/" + id, {
       method: "DELETE",
       headers: {
+        Authorization: `Bearer ${authToken}`,
         "Content-Type": "application/json",
       },
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        // Successful DELETE request (No Content)
-        setRows(rows.filter((row) => row.id !== id));
-      })
-      .catch((error) => {
-        // Handle any errors (e.g., show an error message)
-        console.error("Error deleting project:", error);
-      });
+    });
+
+    if (!response.ok) {
+      throw new Error(`Request failed with status ${response.status}`);
+    }
+
+    // Successful DELETE request (No Content)
+    setRows(rows.filter((row) => row.id !== id));
   };
 
   return (
