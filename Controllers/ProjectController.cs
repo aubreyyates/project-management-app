@@ -63,19 +63,25 @@ namespace ProjectManagementApp.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutProject(int id, Project project)
         {
-            if (id != project.Id)
+            var existingProject = await _projectService.GetProjectWithIdAsync(id);
+
+            if (existingProject == null)
             {
-                return BadRequest();
+                return NotFound();
             }
 
-            // FIXME!!! Make sure to check the project that is stored in the database to make sure that it has a 
-            // matching UserId. Also, make sure the user can't send a new UserId.
-            if (project.UserId != GetUserId())
+            if (existingProject.UserId != GetUserId())
             {
                 return Forbid();
             }
 
-            await _projectService.UpdateProjectAsync(project);
+            existingProject.Name = project.Name;
+            existingProject.Description = project.Description;
+            existingProject.Priority = project.Priority;
+            existingProject.Size = project.Size;
+            existingProject.PercentageComplete = project.PercentageComplete;
+
+            await _projectService.UpdateProjectAsync(existingProject);
 
             return NoContent();
         }
