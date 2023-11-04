@@ -13,19 +13,28 @@ import authService from "components/api-authorization/AuthorizeService";
 
 import { PROJECTS_ENDPOINT } from "routes/api";
 
+const modalFormStyle = {
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 500,
+};
+
 export default function Projects() {
   const [open, setOpen] = useState(false);
   const [rows, setRows] = useState([]);
   const [rowData, setRowData] = useState({});
   const [formType, setFormType] = useState("create");
+  const [modalStyle, setModalStyle] = useState({});
 
   useEffect(() => {
     fetchData(); // Fetch data initially
   }, []);
 
-  const handleOpen = (formType, rowData = {}) => {
+  const handleOpen = (formType, modalStyle, rowData = {}) => {
     setFormType(formType);
     setRowData(rowData);
+    setModalStyle(modalStyle);
     setOpen(true);
   };
 
@@ -125,7 +134,7 @@ export default function Projects() {
             startIcon={<AddIcon />}
             size="medium"
             sx={{ width: "100%" }}
-            onClick={() => handleOpen("create")}
+            onClick={() => handleOpen("create", modalFormStyle)}
           >
             Create New Project
           </Button>
@@ -142,6 +151,7 @@ export default function Projects() {
         updateRow={updateRow}
         formType={formType}
         rowData={rowData}
+        modalStyle={modalStyle}
       />
     </div>
   );

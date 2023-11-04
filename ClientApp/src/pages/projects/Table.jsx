@@ -1,12 +1,25 @@
 import * as React from "react";
-import { useEffect, useState } from "react";
 import { useTheme } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import { DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
+import VisibilityIcon from "@mui/icons-material/Visibility";
 
 import "./Table.css";
+
+const modalFormStyle = {
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 500,
+};
+
+const modalViewStyle = {
+  top: "10%",
+  left: "10%",
+  width: "80%",
+};
 
 export default function Table({ rows, deleteRow, handleOpen }) {
   const theme = useTheme();
@@ -16,7 +29,11 @@ export default function Table({ rows, deleteRow, handleOpen }) {
   };
 
   const handleEditClick = (row) => {
-    handleOpen("update", { ...row });
+    handleOpen("update", modalFormStyle, { ...row });
+  };
+
+  const handleViewClick = (row) => {
+    handleOpen("view", modalViewStyle, { ...row });
   };
 
   const columns = [
@@ -45,6 +62,13 @@ export default function Table({ rows, deleteRow, handleOpen }) {
       cellClassName: "actions",
       getActions: (params) => {
         return [
+          <GridActionsCellItem
+            icon={<VisibilityIcon />}
+            label="Edit"
+            className="textPrimary"
+            onClick={() => handleViewClick(params.row)}
+            color="inherit"
+          />,
           <GridActionsCellItem
             icon={<EditIcon />}
             label="Edit"
