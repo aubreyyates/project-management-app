@@ -30,6 +30,7 @@ builder.Services.AddRazorPages();
 builder.Services.AddCors();
 
 builder.Services.AddScoped<IProjectService, ProjectService>();
+builder.Services.AddScoped<INoteService, NoteService>();
 
 var app = builder.Build();
 

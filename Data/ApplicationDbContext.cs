@@ -14,4 +14,5 @@ public class ApplicationDbContext : ApiAuthorizationDbContext<User>
     }
 
     public DbSet<ProjectManagementApp.Models.Project> Project { get; set; } = default!;
+    public DbSet<ProjectManagementApp.Models.Note> Note { get; set; } = default!;
 }
