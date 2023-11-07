@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ProjectManagementApp.Contracts;
-using ProjectManagementApp.Models;
+using ProjectManagementApp.Extensions.Models.DTOs;
+using ProjectManagementApp.Models.DTOs;
+using ProjectManagementApp.Models.Entities;
 using System.Security.Claims;
 
 namespace ProjectManagementApp.Controllers
@@ -111,7 +113,7 @@ namespace ProjectManagementApp.Controllers
         /// An HTTP response indicating the successful creation of the project with a location header pointing to the newly created resource.
         /// </returns>
         [HttpPost("{projectId}/notes")]
-        public async Task<ActionResult<Project>> PostNote(int projectId, Note note)
+        public async Task<ActionResult<Project>> PostNote(int projectId, NoteDTO noteDTO)
         {
             var project = await _projectService.GetProjectWithIdAsync(projectId);
 
@@ -124,6 +126,9 @@ namespace ProjectManagementApp.Controllers
             {
                 return Forbid();
             }
+
+            Note note = noteDTO.ToNote();
+            note.ProjectId = projectId;
 
             var noteId = await _noteService.CreateNoteAsync(note);
 
@@ -141,16 +146,16 @@ namespace ProjectManagementApp.Controllers
         /// (e.g., 204 No Content, 404 Not Found, 403 Forbidden).
         /// </returns>
         [HttpPut("{projectId}/notes/{noteId}")]
-        public async Task<IActionResult> PutNote(int projectId, int noteId, Note note)
+        public async Task<IActionResult> PutNote(int projectId, int noteId, NoteDTO noteDTO)
         {
-            var existingNote = await _noteService.GetNoteWithIdAsync(noteId);
+            var note = await _noteService.GetNoteWithIdAsync(noteId);
 
-            if (existingNote == null)
+            if (note == null)
             {
                 return NotFound();
             }
 
-            if (existingNote.ProjectId != projectId)
+            if (note.ProjectId != projectId)
             {
                 return BadRequest("The note does not belong to the specified project.");
             }
@@ -167,9 +172,9 @@ namespace ProjectManagementApp.Controllers
                 return Forbid();
             }
 
-            existingNote.Content = note.Content;
+            note = noteDTO.ToNote(note);
 
-            await _noteService.UpdateNoteAsync(existingNote);
+            await _noteService.UpdateNoteAsync(note);
 
             return NoContent();
         }

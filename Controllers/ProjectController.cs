@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ProjectManagementApp.Contracts;
-using ProjectManagementApp.Models;
+using ProjectManagementApp.Extensions.Models.DTOs;
+using ProjectManagementApp.Models.DTOs;
+using ProjectManagementApp.Models.Entities;
 using System.Security.Claims;
 
 namespace ProjectManagementApp.Controllers
@@ -73,13 +75,15 @@ namespace ProjectManagementApp.Controllers
         /// <summary>
         /// Creates a new project and associates it with the authenticated user.
         /// </summary>
-        /// <param name="project">The project to be created.</param>
+        /// <param name="projectDTO">The project data to use to create a project.</param>
         /// <returns>
         /// An HTTP response indicating the successful creation of the project with a location header pointing to the newly created resource.
         /// </returns>
         [HttpPost]
-        public async Task<ActionResult<Project>> PostProject(Project project)
+        public async Task<ActionResult<Project>> PostProject(ProjectDTO projectDTO)
         {
+            Project project = projectDTO.ToProject();
+
             project.UserId = GetUserId();
 
             var projectId = await _projectService.CreateProjectAsync(project);
@@ -91,33 +95,29 @@ namespace ProjectManagementApp.Controllers
         /// Updates an existing project if it belongs to the authenticated user.
         /// </summary>
         /// <param name="id">The unique identifier of the project to update.</param>
-        /// <param name="project">The updated project data.</param>
+        /// <param name="projectDTO">The updated project data.</param>
         /// <returns>
         /// An HTTP response indicating the success of the update or an appropriate status code 
         /// (e.g., 204 No Content, 404 Not Found, 403 Forbidden).
         /// </returns>
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutProject(int id, Project project)
+        public async Task<IActionResult> PutProject(int id, ProjectDTO projectDTO)
         {
-            var existingProject = await _projectService.GetProjectWithIdAsync(id);
+            var project = await _projectService.GetProjectWithIdAsync(id);
 
-            if (existingProject == null)
+            if (project == null)
             {
                 return NotFound();
             }
 
-            if (existingProject.UserId != GetUserId())
+            if (project.UserId != GetUserId())
             {
                 return Forbid();
             }
 
-            existingProject.Name = project.Name;
-            existingProject.Description = project.Description;
-            existingProject.Priority = project.Priority;
-            existingProject.Size = project.Size;
-            existingProject.PercentageComplete = project.PercentageComplete;
+            project = projectDTO.ToProject(project);
 
-            await _projectService.UpdateProjectAsync(existingProject);
+            await _projectService.UpdateProjectAsync(project);
 
             return NoContent();
         }

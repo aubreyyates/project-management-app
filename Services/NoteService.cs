@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ProjectManagementApp.Contracts;
 using ProjectManagementApp.Data;
-using ProjectManagementApp.Models;
+using ProjectManagementApp.Models.Entities;
 
 namespace ProjectManagementApp.Services
 {

@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 
-namespace ProjectManagementApp.Models
+namespace ProjectManagementApp.Models.Entities
 {
     public class Project
     {

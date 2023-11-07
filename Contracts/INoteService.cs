@@ -1,4 +1,4 @@
-﻿using ProjectManagementApp.Models;
+﻿using ProjectManagementApp.Models.Entities;
 
 namespace ProjectManagementApp.Contracts
 {
