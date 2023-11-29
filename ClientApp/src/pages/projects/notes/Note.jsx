@@ -1,4 +1,5 @@
 // Third-party library imports.
+import React, { useState, useRef } from "react";
 import {
   Card,
   IconButton,
@@ -9,11 +10,10 @@ import {
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
-import React, { useState, useRef } from "react";
 
-function Note({ id, content, handleDeleteClick, handleEditNote }) {
+function Note({ note, updateNote, deleteNote }) {
   const [isEditing, setIsEditing] = useState(false);
-  const [noteContent, setNoteContent] = useState(content); // Temporary state to store changes during editing
+  const [noteContent, setNoteContent] = useState(note.content); // Temporary state to store changes during editing
   const textFieldRef = useRef(null);
 
   const handleEditClick = () => {
@@ -23,12 +23,16 @@ function Note({ id, content, handleDeleteClick, handleEditNote }) {
     }, 0);
   };
 
+  const handleDeleteButtonClick = (noteId, projectId) => {
+    deleteNote(noteId, projectId);
+  };
+
   const handleBlur = (event) => {
     let content = event.target.value;
     if (content === "" || content === null) {
-      handleDeleteClick(id);
+      deleteNote(note.id);
     } else {
-      handleEditNote(content, id);
+      updateNote(content, note.id);
       setNoteContent(content);
     }
     setIsEditing(false);
@@ -38,9 +42,9 @@ function Note({ id, content, handleDeleteClick, handleEditNote }) {
     if (event.key === "Enter") {
       let content = event.target.value;
       if (content === "" || content === null) {
-        handleDeleteClick(id);
+        deleteNote(note.id);
       } else {
-        handleEditNote(content, id);
+        updateNote(note.id, { content: content });
         setNoteContent(content);
       }
       setIsEditing(false);
@@ -81,7 +85,9 @@ function Note({ id, content, handleDeleteClick, handleEditNote }) {
           <IconButton onClick={handleEditClick}>
             <EditIcon />
           </IconButton>
-          <IconButton onClick={() => handleDeleteClick(id)}>
+          <IconButton
+            onClick={() => handleDeleteButtonClick(note.id, note.projectId)}
+          >
             <DeleteIcon />
           </IconButton>
         </Grid>

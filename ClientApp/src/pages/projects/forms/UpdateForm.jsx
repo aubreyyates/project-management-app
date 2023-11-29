@@ -3,16 +3,16 @@ import React, { useState } from "react";
 import { Grid, Typography } from "@mui/material";
 
 // Relative imports of components/functions.
-import FormFields from "./FormFields";
+import FormFields from "../FormFields";
 
-function CreateForm({ createRow }) {
+function UpdateForm({ closeModal, updateProject, project }) {
   const [formData, setFormData] = useState({
-    name: "",
-    description: "",
-    size: "",
-    priority: "",
-    percentageComplete: "",
-    userId: "",
+    name: project.name,
+    description: project.description,
+    size: project.size,
+    priority: project.priority,
+    percentageComplete: project.percentageComplete,
+    userId: project.userId,
   });
 
   const handleInputChange = (e) => {
@@ -23,16 +23,18 @@ function CreateForm({ createRow }) {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    createRow(formData);
+    let data = { id: project.id, ...formData };
+    await updateProject(project.id, data);
+    closeModal();
   };
 
   return (
     <form onSubmit={handleSubmit}>
       <Grid container spacing={2}>
         <Grid item xs={12}>
-          <Typography variant="h5">Create Project</Typography>
+          <Typography variant="h5">Edit Project</Typography>
         </Grid>
         <FormFields formData={formData} handleInputChange={handleInputChange} />
       </Grid>
@@ -40,4 +42,4 @@ function CreateForm({ createRow }) {
   );
 }
 
-export default CreateForm;
+export default UpdateForm;

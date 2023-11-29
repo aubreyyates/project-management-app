@@ -1,10 +1,15 @@
+// Third-party library imports.
 import "bootstrap/dist/css/bootstrap.css";
 import { React, StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
 import { Provider as ReduxProvider } from "react-redux";
-import App from "./App";
+
+// Aliases and Absolute Imports.
 import { store } from "store";
+
+// Relative imports of components/functions.
+import App from "./App";
 import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
 import reportWebVitals from "./reportWebVitals";
 

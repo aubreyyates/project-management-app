@@ -1,5 +1,8 @@
+// Third-party library imports.
 import React, { useState } from "react";
 import { Grid, Typography } from "@mui/material";
+
+// Relative imports of components/functions.
 import FormFields from "./FormFields";
 
 function UpdateForm({ updateRow, rowData }) {

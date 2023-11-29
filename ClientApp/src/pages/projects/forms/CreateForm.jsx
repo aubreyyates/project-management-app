@@ -3,9 +3,9 @@ import React, { useState } from "react";
 import { Grid, Typography } from "@mui/material";
 
 // Relative imports of components/functions.
-import FormFields from "./FormFields";
+import FormFields from "../FormFields";
 
-function CreateForm({ createRow }) {
+function CreateForm({ closeModal, createProject }) {
   const [formData, setFormData] = useState({
     name: "",
     description: "",
@@ -23,9 +23,10 @@ function CreateForm({ createRow }) {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    createRow(formData);
+    createProject(formData);
+    closeModal();
   };
 
   return (

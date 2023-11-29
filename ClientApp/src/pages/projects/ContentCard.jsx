@@ -1,3 +1,4 @@
+// Third-party library imports.
 import { Box, Grid, Typography } from "@mui/material";
 import { Card } from "../../../node_modules/@mui/material/index";
 

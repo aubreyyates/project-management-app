@@ -1,18 +1,21 @@
+// Third-party library imports.
 import * as React from "react";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
-import CreateForm from "./CreateForm";
-import UpdateForm from "./UpdateForm";
+
+// Relative imports of components/functions.
+import CreateForm from "./forms/CreateForm";
+import UpdateForm from "./forms/UpdateForm";
 import View from "./View";
 
 export default function ProjectModal({
-  open,
-  handleClose,
-  createRow,
-  updateRow,
-  formType,
-  rowData,
+  isModalOpen,
+  closeModal,
+  modalType,
   modalStyle,
+  project,
+  createProject,
+  updateProject,
 }) {
   const style = {
     ...modalStyle,
@@ -22,20 +25,29 @@ export default function ProjectModal({
     boxShadow: 24,
     p: 4,
   };
+
+  const handleModalOnClose = () => {
+    closeModal();
+  };
+
   return (
     <Modal
-      open={open}
-      onClose={handleClose}
+      open={isModalOpen}
+      onClose={handleModalOnClose}
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
     >
       <Box sx={style}>
-        {formType === "create" ? (
-          <CreateForm createRow={createRow} />
-        ) : formType === "update" ? (
-          <UpdateForm updateRow={updateRow} rowData={rowData} />
-        ) : formType === "view" ? (
-          <View rowData={rowData} />
+        {modalType === "createProjectForm" ? (
+          <CreateForm closeModal={closeModal} createProject={createProject} />
+        ) : modalType === "updateProjectForm" ? (
+          <UpdateForm
+            closeModal={closeModal}
+            updateProject={updateProject}
+            project={project}
+          />
+        ) : modalType === "viewProject" ? (
+          <View project={project} />
         ) : (
           <div>Unknown form type</div>
         )}

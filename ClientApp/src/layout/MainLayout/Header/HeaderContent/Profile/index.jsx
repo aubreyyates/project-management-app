@@ -76,7 +76,6 @@ const Profile = () => {
       try {
         const user = await authService.getUser();
         setUser(user);
-        console.log(user);
       } catch (error) {
         console.error("Error fetching user data:", error);
       }

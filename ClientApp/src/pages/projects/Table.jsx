@@ -1,39 +1,28 @@
-import * as React from "react";
+// Third-party library imports.
+import { DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
 import { useTheme } from "@mui/material/styles";
 import Box from "@mui/material/Box";
-import { DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 
+// Style imports.
+import { smallModalSize, largeModalSize } from "components/modal/modalSizes";
 import "./Table.css";
 
-const modalFormStyle = {
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: 500,
-};
-
-const modalViewStyle = {
-  top: "10%",
-  left: "10%",
-  width: "80%",
-};
-
-export default function Table({ rows, deleteRow, handleOpen }) {
+export default function Table({ projects, openModal, deleteProject }) {
   const theme = useTheme();
 
-  const handleDeleteClick = (id) => {
-    deleteRow(id);
+  const handleViewButtonClick = (project) => {
+    openModal("viewProject", largeModalSize, project);
   };
 
-  const handleEditClick = (row) => {
-    handleOpen("update", modalFormStyle, { ...row });
+  const handleEditButtonClick = (project) => {
+    openModal("updateProjectForm", smallModalSize, project);
   };
 
-  const handleViewClick = (row) => {
-    handleOpen("view", modalViewStyle, { ...row });
+  const handleDeleteButtonClick = (id) => {
+    deleteProject(id);
   };
 
   const columns = [
@@ -66,20 +55,20 @@ export default function Table({ rows, deleteRow, handleOpen }) {
             icon={<VisibilityIcon />}
             label="Edit"
             className="textPrimary"
-            onClick={() => handleViewClick(params.row)}
+            onClick={() => handleViewButtonClick(params.row)}
             color="inherit"
           />,
           <GridActionsCellItem
             icon={<EditIcon />}
             label="Edit"
             className="textPrimary"
-            onClick={() => handleEditClick(params.row)}
+            onClick={() => handleEditButtonClick(params.row)}
             color="inherit"
           />,
           <GridActionsCellItem
             icon={<DeleteIcon />}
             label="Delete"
-            onClick={() => handleDeleteClick(params.id)}
+            onClick={() => handleDeleteButtonClick(params.id)}
             color="inherit"
           />,
         ];
@@ -90,9 +79,8 @@ export default function Table({ rows, deleteRow, handleOpen }) {
   return (
     <Box sx={{ height: 500, width: "100%" }}>
       <DataGrid
-        rows={rows}
+        rows={projects}
         columns={columns}
-        // getRowClassName={getRowClassName}
         initialState={{
           pagination: {
             paginationModel: {
